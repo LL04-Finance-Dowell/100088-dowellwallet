@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo_dowell from "../assets/logo_dowell.png";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const UpdateProfile = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
@@ -48,9 +48,9 @@ const UpdateProfile = () => {
   };
   return (
     <div>
-      <div className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
+      <Link to={"/"} className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
         <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
-      </div>
+      </Link>
       <div className="p-6 ">
         <p className="text-4xl font-bold mb-5">Update Profile</p>
         <form className="flex flex-col" onSubmit={submitHandler}>

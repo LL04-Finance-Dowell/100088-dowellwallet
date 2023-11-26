@@ -6,26 +6,33 @@ import Profile from "./Screens/Profile";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import UpdateProfile from "./Screens/UpdateProfile";
 import AuthorizePayment from "./Screens/AuthorizePayment";
+import Deposit from "./Screens/Deposit";
 const routes = createHashRouter([
   { path: "/login", element: <LogInScreen /> },
   {
     path: "/",
     element: <DashBoard />,
-  },{
-    path:"/profile",
-    element:<Profile/>
-  },{
-    
-    path:"/updateProfile",
-    element:<UpdateProfile/>
   },
   {
-    path:"/signup",
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/updateProfile",
+    element: <UpdateProfile />,
+  },
+  {
+    path: "/signup",
     element: <SignUpScreen />,
-  },{
-    path:"/authorize",
-    element:<AuthorizePayment/>
-  }
+  },
+  {
+    path: "/authorize",
+    element: <AuthorizePayment />,
+  },
+  {
+    path: "/deposit",
+    element: <Deposit />,
+  },
 ]);
 function App() {
   return <RouterProvider router={routes} />;

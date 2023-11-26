@@ -41,9 +41,9 @@ const Profile = () => {
   }, []);
   return (
     <div>
-      <div className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
+      <Link to="/" className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
         <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
-      </div>
+      </Link>
       {ProfileDetails ? (
         <div className="p-5">
           <img

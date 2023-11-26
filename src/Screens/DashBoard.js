@@ -63,9 +63,9 @@ const DashBoard = () => {
               <b className="text-green-600 pr-5 text-xl">
                 {walletDetails.wallet.balance}
               </b>
-              <button className="bg-blue-800 text-white p-1 px-2  rounded-full">
+              <Link to={"/deposit"} className="bg-blue-800 text-white p-1 px-2  rounded-full">
                 Top Up
-              </button>
+              </Link>
             </div>
           </section>
           {/* ============================================================================== */}
