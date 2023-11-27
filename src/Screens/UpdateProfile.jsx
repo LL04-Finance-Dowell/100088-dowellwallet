@@ -62,7 +62,6 @@ const UpdateProfile = () => {
               className="mb-5"
               type="file"
               onChange={(e) => {
-                console.log(e.target.files[0]);
                 setProfilePicture(e.target.files[0]);
               }}
             />
