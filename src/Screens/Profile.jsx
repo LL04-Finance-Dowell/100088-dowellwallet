@@ -4,7 +4,6 @@ import { Circles } from "react-loader-spinner";
 import logo_dowell from "../assets/logo_dowell.png";
 const Profile = () => {
   const [ProfileDetails, setProfileDetails] = useState(null);
-  console.log(ProfileDetails);
   const navigate = useNavigate();
   const getProfileDetails = () => {
     const storedAccessToken = localStorage.getItem("accessToken");
@@ -36,14 +35,29 @@ const Profile = () => {
         navigate("/login");
       });
   };
+  const handleLogout = (e) => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
+  };
   useEffect(() => {
     getProfileDetails();
   }, []);
   return (
     <div>
-      <Link to="/" className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
-        <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
-      </Link>
+      <div className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
+        <img
+          onClick={() => navigate("/")}
+          src={logo_dowell}
+          className=" cursor-pointer w-52 sm:w-96 h-30"
+          alt=""
+        />
+        <button
+          onClick={handleLogout}
+          className="sm:w-28 w-24 h-24 sm:h-28  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
+        >
+          Log Out
+        </button>
+      </div>
       {ProfileDetails ? (
         <div className="p-5">
           <img
