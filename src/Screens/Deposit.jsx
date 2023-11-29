@@ -7,7 +7,6 @@ const Deposit = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [depositmethod, setDepositMethod] = useState("");
-  console.log(depositmethod);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState("");
@@ -70,7 +69,7 @@ const Deposit = () => {
           <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
         </Link>
       </header>
-      <div className="border-black border-2 p-5 sm:p-10 w-full lg:w-2/6 mt-16 ml-auto mr-auto rounded-xl ">
+      <div className="border-black border-2 p-5 sm:p-10 w-4/5 lg:w-2/6 mt-16 ml-auto mr-auto rounded-xl ">
         <p className="text-primaryBlack text-center text-xl sm:text-3xl font-semibold mb-4 sm:mb-8 ">
           Deposit Money via {depositmethod && depositmethod.toUpperCase()}
         </p>

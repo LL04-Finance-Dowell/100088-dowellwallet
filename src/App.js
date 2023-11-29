@@ -7,6 +7,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import UpdateProfile from "./Screens/UpdateProfile";
 import AuthorizePayment from "./Screens/AuthorizePayment";
 import Deposit from "./Screens/Deposit";
+import NewUser from "./Screens/NewUser";
 const routes = createHashRouter([
   { path: "/login", element: <LogInScreen /> },
   {
@@ -32,7 +33,10 @@ const routes = createHashRouter([
   {
     path: "/deposit",
     element: <Deposit />,
-  },
+  },{
+    path:"/newUser",
+    element:<NewUser/>
+  }
 ]);
 function App() {
   return <RouterProvider router={routes} />;
