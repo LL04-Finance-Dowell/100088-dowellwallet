@@ -10,20 +10,20 @@ const DashBoard = () => {
   const [walletDetails, setWalletDetails] = useState(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const getWalletDeatils = () => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    // const storedAccessToken = localStorage.getItem("accessToken");
 
-    if (!storedAccessToken) {
-      navigate("/login");
-      return;
-    }
+    // if (!storedAccessToken) {
+    //   navigate("/login");
+    //   return;
+    // }
     const apiUrl =
       "https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail";
 
     fetch(apiUrl, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${storedAccessToken}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${storedAccessToken}`,
+      // },
     })
       .then((response) => {
         if (response.ok) {
