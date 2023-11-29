@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/100088-dowellwallet/static/css/main.1d958db1.css",
-    "main.js": "/100088-dowellwallet/static/js/main.73fa5bda.js",
+    "main.css": "/100088-dowellwallet/static/css/main.7882a984.css",
+    "main.js": "/100088-dowellwallet/static/js/main.6c73a0c6.js",
     "static/media/logo_dowell.png": "/100088-dowellwallet/static/media/logo_dowell.418a6fbd9da57250d112.png",
     "index.html": "/100088-dowellwallet/index.html",
-    "main.1d958db1.css.map": "/100088-dowellwallet/static/css/main.1d958db1.css.map",
-    "main.73fa5bda.js.map": "/100088-dowellwallet/static/js/main.73fa5bda.js.map"
+    "main.7882a984.css.map": "/100088-dowellwallet/static/css/main.7882a984.css.map",
+    "main.6c73a0c6.js.map": "/100088-dowellwallet/static/js/main.6c73a0c6.js.map"
   },
   "entrypoints": [
-    "static/css/main.1d958db1.css",
-    "static/js/main.73fa5bda.js"
+    "static/css/main.7882a984.css",
+    "static/js/main.6c73a0c6.js"
   ]
 }
