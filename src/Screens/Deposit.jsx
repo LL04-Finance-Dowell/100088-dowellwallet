@@ -18,27 +18,38 @@ const Deposit = () => {
       setIsLoading(false);
       return;
     }
+    const searchParams = new URLSearchParams(window.location.search);
+    console.log(searchParams)
+    const sessionIdFromParams = searchParams.get("session_id");
 
     const stripeapiUrl =
-      "https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment";
+      `http://127.0.0.1:8000/api/wallet/v1/stripe-payment?session_id=${sessionIdFromParams}`;
     const paypalapiUrl =
-      "https://100088.pythonanywhere.com/api/wallet/v1/paypal-payment"; // Replace with your PayPal API URL
-    const storedAccessToken = localStorage.getItem("accessToken");
+      `http://127.0.0.1:8000/api/wallet/v1/paypal-payment?session_id=${sessionIdFromParams}`; // Replace with your PayPal API URL
+    // const storedAccessToken = localStorage.getItem("accessToken");
 
-    if (!storedAccessToken) {
-      navigate("/login");
-      return;
-    }
+    // if (!storedAccessToken) {
+    //   navigate("/login");
+    //   return;
+    // }
     const apiUrl = depositmethod === "paypal" ? paypalapiUrl : stripeapiUrl;
+    console.log("payment",apiUrl)
     fetch(apiUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${storedAccessToken}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ amount: parseFloat(depositAmount) }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+        if (response.redirected){
+          window.location.href = response['url']
+        }
+        if (response.ok) {
+          return response.json();
+        }
+      })
       .then((data) => {
         if (data.success) {
           window.location.href = data.approval_url;
