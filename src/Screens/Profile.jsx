@@ -55,24 +55,24 @@ const Profile = () => {
         </button>
       </div>
       {ProfileDetails ? (
-        <div className="p-5">
+        <div className="p-5 bg-secondaryGreen mt-10 w-5/6 mx-10 sm:w-96 ml-auto mr-auto flex flex-col justify-center items-center rounded-3xl ">
           <img
             src={`${ProfileDetails.profile_picture}`}
-            className="w-52 sm:w-96 h-30 mb-5"
+            className="w-96 sm:w-96 h-30 mb-5"
             alt=""
           />
-          <div className="flex flex-row">
+          <div className="flex flex-row w-full">
             <div>
               <p className="font-bold mr-14">Name</p>
               <p className="font-bold mr-16">Email</p>
               <p className="font-bold mr-7">Phone no</p>
               <p className="font-bold mr-4">Account no</p>
             </div>
-            <div>
-              <p>
+            <div className="w-full"> 
+              <p className="w-full">
                 {ProfileDetails.firstname} {ProfileDetails.lastname}
               </p>
-              <p>{ProfileDetails.email}</p>
+              <p className="w-full">{ProfileDetails.email}</p>
               <p>{ProfileDetails.phone}</p>
               <p>{ProfileDetails.account_no}</p>
             </div>
