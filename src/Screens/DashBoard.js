@@ -26,7 +26,7 @@ const DashBoard = () => {
     console.log(searchParams)
     const sessionIdFromParams = searchParams.get("session_id");
     const apiUrl =
-      `http://127.0.0.1:8000/api/wallet/v1/wallet_detail?session_id=${sessionIdFromParams}`;
+      `http://127.0.0.1:8000/api/wallet/v1/wallet_detail/?session_id=${sessionIdFromParams}`;
     
     console.log("apirul",apiUrl)
     fetch(apiUrl, {
@@ -92,6 +92,7 @@ const DashBoard = () => {
   console.log("walletDetails",walletDetails)
   return (
     <div className="bg-gray-200 min-h-screen">
+    <button onClick={()=>getWalletDeatils()}>click</button>
       {showPaymentOptions && (
         <div
           className="bg-secondaryGreen py-5 w-4/6 sm:w-1/4"
