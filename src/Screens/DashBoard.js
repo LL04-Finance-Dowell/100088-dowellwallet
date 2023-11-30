@@ -9,35 +9,36 @@ const DashBoard = () => {
   const navigate = useNavigate();
   const [walletDetails, setWalletDetails] = useState(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+
   const getWalletDeatils = () => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    const sessionId = new URLSearchParams(window.location.search).get(
+      "session_id"
+    );
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail?session_id=${sessionId}`;
 
-    if (!storedAccessToken) {
-      navigate("/login");
-      return;
-    }
-    const apiUrl =
-      "https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail";
-
-    fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${storedAccessToken}`,
-      },
-    })
+    fetch(apiUrl)
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          navigate("/login");
+        if (response.redirected) {
+          // If redirected, update the window location
+          window.location.href = response.url;
+          return; // Stop further processing as the redirection will change the page
         }
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok.");
+        }
+        return response.json();
       })
       .then((data) => {
-        setWalletDetails(data);
+        if (data.wallet && data.wallet.length > 0) {
+          setWalletDetails(data);
+        } else {
+          console.error("Empty or unexpected wallet data received");
+        }
       })
       .catch((error) => {
+        // Handle errors
         console.error("Error fetching data:", error);
-        navigate("/login");
       });
   };
   const handleTopUp = () => {
@@ -52,9 +53,9 @@ const DashBoard = () => {
   }, []);
   useEffect(() => {
     if (showPaymentOptions) {
-      document.body.classList.add('no-scroll');
+      document.body.classList.add("no-scroll");
     } else {
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove("no-scroll");
     }
   }, [showPaymentOptions]);
   return (
@@ -100,7 +101,7 @@ const DashBoard = () => {
         <div className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
           <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
           <Link
-            to={"/profile"}
+            to={`/profile`}
             className="sm:w-28 w-24 h-24 sm:h-28  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
           >
             Profile
@@ -116,7 +117,7 @@ const DashBoard = () => {
             </div>
             <div>
               <b className="text-green-600 pr-5 text-xl">
-                ${walletDetails.wallet.balance}
+                $ {walletDetails.wallet[0].balance}
               </b>
               <button
                 onClick={handleTopUp}
@@ -143,7 +144,7 @@ const DashBoard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {walletDetails.transactions.map((item,index) => {
+                  {walletDetails.transactions.map((item, index) => {
                     return <TransactionItem item={item} key={index} />;
                   })}
                 </tbody>

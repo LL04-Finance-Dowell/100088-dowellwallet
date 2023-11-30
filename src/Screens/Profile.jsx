@@ -6,39 +6,36 @@ const Profile = () => {
   const [ProfileDetails, setProfileDetails] = useState(null);
   const navigate = useNavigate();
   const getProfileDetails = () => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    const sessionId = new URLSearchParams(window.location.search).get(
+      "session_id"
+    );
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/profile?session_id=${sessionId}`;
 
-    if (!storedAccessToken) {
-      navigate("/login");
-      return;
-    }
-    const apiUrl = "https://100088.pythonanywhere.com/api/wallet/v1/profile";
-
-    fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${storedAccessToken}`,
-      },
-    })
+    fetch(apiUrl)
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          navigate("/login");
+        if (response.redirected) {
+          window.location.href = response.url;
+          return;
         }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+        return response.json();
       })
       .then((data) => {
+        console.log(data)
         setProfileDetails(data.data);
+
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-        navigate("/login");
+        console.error('Error fetching profile data:', error);
       });
   };
-  const handleLogout = (e) => {
-    localStorage.removeItem("accessToken");
-    navigate("/login");
-  };
+  // const handleLogout = (e) => {
+  //   localStorage.removeItem("accessToken");
+  //   navigate("/login");
+  // };
   useEffect(() => {
     getProfileDetails();
   }, []);
@@ -52,7 +49,6 @@ const Profile = () => {
           alt=""
         />
         <button
-          onClick={handleLogout}
           className="sm:w-28 w-24 h-24 sm:h-28  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
         >
           Log Out
@@ -61,7 +57,7 @@ const Profile = () => {
       {ProfileDetails ? (
         <div className="p-5">
           <img
-            src={`https://100088.pythonanywhere.com/${ProfileDetails.profile_picture}`}
+            src={`${ProfileDetails.profile_picture}`}
             className="w-52 sm:w-96 h-30 mb-5"
             alt=""
           />
@@ -77,16 +73,16 @@ const Profile = () => {
                 {ProfileDetails.firstname} {ProfileDetails.lastname}
               </p>
               <p>{ProfileDetails.email}</p>
-              <p>{ProfileDetails.phone_number}</p>
+              <p>{ProfileDetails.phone}</p>
               <p>{ProfileDetails.account_no}</p>
             </div>
           </div>
-          <Link
+          {/* <Link
             to="/updateProfile"
             className="rounded-xl mt-5 w-72 py-3 sm:py-5 flex justify-center items-center mb-8 bg-primaryGreen text-primaryWhite text-lg sm:text-2xl font-medium"
           >
             Update Profile
-          </Link>
+          </Link> */}
         </div>
       ) : (
         <div className="w-full flex flex-row justify-center mt-5">

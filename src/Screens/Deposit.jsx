@@ -18,23 +18,20 @@ const Deposit = () => {
       setIsLoading(false);
       return;
     }
-
+    const sessionId = new URLSearchParams(window.location.search).get(
+      "session_id"
+    );
+console.log(sessionId)
     const stripeapiUrl =
-      "https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment";
+      `https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment?session_id=${sessionId}`;
     const paypalapiUrl =
-      "https://100088.pythonanywhere.com/api/wallet/v1/paypal-payment"; // Replace with your PayPal API URL
-    const storedAccessToken = localStorage.getItem("accessToken");
+      `https://100088.pythonanywhere.com/api/wallet/v1/paypal-payment?session_id=${sessionId}`; // Replace with your PayPal API URL
 
-    if (!storedAccessToken) {
-      navigate("/login");
-      return;
-    }
     const apiUrl = depositmethod === "paypal" ? paypalapiUrl : stripeapiUrl;
     fetch(apiUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${storedAccessToken}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ amount: parseFloat(depositAmount) }),
     })
@@ -46,8 +43,7 @@ const Deposit = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error making a deposit:", error);
-        setError("An error occurred. Please try again.");
+        console.error('Error making a deposit:', error);
         setIsLoading(false);
       });
   };
