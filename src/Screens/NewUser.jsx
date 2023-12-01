@@ -28,7 +28,7 @@ const NewUser = () => {
     const sessionId = new URLSearchParams(location.search).get(
       "session_id"
     );
-    console.log("sessionId",sessionId)
+    console.log("sessionId...",sessionId)
     if (walletPassword.length === 4) {
       const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-password?session_id=${sessionId}`;
       console.log(apiUrl)
