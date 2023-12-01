@@ -3,10 +3,8 @@ import logo_dowell from "../assets/logo_dowell.png";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const NewUser = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +28,7 @@ const NewUser = () => {
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
-    console.log("sessionId...+",sessionId)
+    console.log("sessionId +++",sessionId)
     if (walletPassword.length === 4) {
       const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-password?session_id=${sessionId}`;
       // console.log(apiUrl)
@@ -46,24 +44,13 @@ const NewUser = () => {
         .then((response) => {
 
           console.log("response",response)
-          // if (response.redirected) {
+          if (response.redirected) {
 
-          //   window.location.href = response.url;
-          // }
-
-          return response.json();
-          
-        })
-        .then((data) => {
-          console.log("data",data)
-          // Check if "success" field is true
-          if (data.success === true) {
-            setIsLoading(false);
-            console.log("Success:", data.status);
-            navigate("/");
-          } else {
-            console.error("Request was not successful:", data.status);
+            window.location.href = response.url;
           }
+
+       
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error("Error setting password:", error);
