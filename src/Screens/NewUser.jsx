@@ -34,8 +34,10 @@ const NewUser = () => {
       // console.log(apiUrl)
       fetch(apiUrl, {
         method: "POST",
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
+          'Accept': 'application/json',
         },
         body: JSON.stringify({ wallet_password: walletPassword }),
       })
