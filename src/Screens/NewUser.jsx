@@ -5,6 +5,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useLocation } from "react-router-dom";
 
 const NewUser = () => {
+  const location = useLocation();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [walletPassword, setWalletPassword] = useState("");
@@ -23,10 +24,11 @@ const NewUser = () => {
   const handleSubmit = (event) => {
     setIsLoading(true);
     event.preventDefault();
-    const sessionId = new URLSearchParams(window.location.search).get(
+    
+    const sessionId = new URLSearchParams(location.search).get(
       "session_id"
     );
-    console.log(sessionId)
+    console.log("sessionId",sessionId)
     if (walletPassword.length === 4) {
       const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-password?session_id=${sessionId}`;
       console.log(apiUrl)
