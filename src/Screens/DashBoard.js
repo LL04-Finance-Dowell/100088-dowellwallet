@@ -14,7 +14,7 @@ const DashBoard = () => {
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
-    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail?session_id=${sessionId}`;
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail/?session_id=${sessionId}`;
 
     fetch(apiUrl)
       .then((response) => {
