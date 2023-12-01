@@ -28,7 +28,7 @@ const NewUser = () => {
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
-    console.log("sessionId...+++",sessionId)
+    console.log("sessionId...+",sessionId)
     if (walletPassword.length === 4) {
       const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-password?session_id=${sessionId}`;
       // console.log(apiUrl)
@@ -42,10 +42,14 @@ const NewUser = () => {
         body: JSON.stringify({ wallet_password: walletPassword }),
       })
         .then((response) => {
+
+          console.log("response",response)
           if (response.redirected) {
 
             window.location.href = response.url;
           }
+
+       
           setIsLoading(false);
         })
         .catch((error) => {
