@@ -3,8 +3,10 @@ import logo_dowell from "../assets/logo_dowell.png";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NewUser = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,13 +46,24 @@ const NewUser = () => {
         .then((response) => {
 
           console.log("response",response)
-          if (response.redirected) {
+          // if (response.redirected) {
 
-            window.location.href = response.url;
+          //   window.location.href = response.url;
+          // }
+
+          return response.json();
+          
+        })
+        .then((data) => {
+          console.log("data",data)
+          // Check if "success" field is true
+          if (data.success === true) {
+            setIsLoading(false);
+            console.log("Success:", data.status);
+            navigate("/");
+          } else {
+            console.error("Request was not successful:", data.status);
           }
-
-       
-          setIsLoading(false);
         })
         .catch((error) => {
           console.error("Error setting password:", error);
