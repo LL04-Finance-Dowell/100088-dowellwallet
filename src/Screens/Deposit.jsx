@@ -28,8 +28,10 @@ const Deposit = () => {
     const apiUrl = depositmethod === "paypal" ? paypalapiUrl : stripeapiUrl;
     fetch(apiUrl, {
       method: 'POST',
+       
       headers: {
         'Content-Type': 'application/json',
+        
       },
       body: JSON.stringify({ amount: parseFloat(depositAmount) }),
     })
