@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import logo_dowell from "../assets/logo_dowell.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLocation } from "react-router-dom";
 const Deposit = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const [depositmethod, setDepositMethod] = useState("");
   const [error, setError] = useState(null);

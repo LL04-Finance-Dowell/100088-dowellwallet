@@ -1,58 +1,64 @@
 import React, { useState } from "react";
 import logo_dowell from "../assets/logo_dowell.png";
 import { Link } from "react-router-dom";
-import ClipLoader from "react-spinners/ClipLoader";
-import { useLocation } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader"
 
 const NewUser = () => {
-  const location = useLocation();
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [walletPassword, setWalletPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setWalletPassword(newPassword);
-    if (newPassword.length !== 4 || !/^\d+$/.test(newPassword)) {
-      setErrorMessage("Please enter a 4-digit number.");
-    } else {
-      setErrorMessage("");
-    }
-  };
+
+  // const handlePasswordChange = (e) => {
+  //   const newPassword = e.target.value;
+  //   setWalletPassword(newPassword);
+  //   if (newPassword.length !== 4 || !/^\d+$/.test(newPassword)) {
+  //     setErrorMessage("Please enter a 4-digit number.");
+  //   } else {
+  //     setErrorMessage("");
+  //   }
+  // };
 
   const handleSubmit = (event) => {
-    setIsLoading(true);
     event.preventDefault();
-    
+    setIsLoading(true)
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
-    console.log("sessionId...",sessionId)
     if (walletPassword.length === 4) {
       const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-password?session_id=${sessionId}`;
-      // console.log(apiUrl)
       fetch(apiUrl, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ wallet_password: walletPassword }),
       })
         .then((response) => {
-          if (response.redirected) {
-
-            window.location.href = response.url;
+          if (response.ok) {
+            return response.json();
           }
-          setIsLoading(false);
+          throw new Error('Network response was not ok.');
+        })
+        .then((data) => {
+          console.log('API Response:', data);
+          if (data.success && data.redirect_url) {
+            window.location.href = data.redirect_url;
+          } else {
+            // Handle unsuccessful response or missing data
+            setErrorMessage('Error setting password.');
+            console.error('Invalid response from the server');
+          }
+          setIsLoading(false)
         })
         .catch((error) => {
-          console.error("Error setting password:", error);
-          setIsLoading(false);
+          console.error('Error setting password:', error);
+          setErrorMessage('Error setting password.');
+          setIsLoading(false)
         });
     } else {
-      setErrorMessage("Please enter a 4-digit number.");
-      setIsLoading(false);
+      setErrorMessage('Please enter a 4-digit number.');
+      setIsLoading(false)
     }
   };
   return (
@@ -70,7 +76,7 @@ const NewUser = () => {
           Wallet Password
         </p>
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          {error && <p className="text-red-500 text-base mb-3">{error}</p>}
+          {errorMessage && <p className="text-red-500 text-base mb-3">{errorMessage}</p>}
           <input
             required
             type="password"
