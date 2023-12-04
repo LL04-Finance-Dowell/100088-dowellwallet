@@ -41,18 +41,18 @@ const Profile = () => {
   }, []);
   return (
     <div>
-      <div className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
+      <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between">
         <img
           onClick={() => navigate("/")}
           src={logo_dowell}
-          className=" cursor-pointer w-52 sm:w-96 h-30"
+          className=" cursor-pointer w-44 sm:w-80 h-20"
           alt=""
         />
-        <button
-          className="sm:w-28 w-24 h-24 sm:h-28  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
+        {/* <button
+          className="sm:w-28 w-20 h-20  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
         >
           Log Out
-        </button>
+        </button> */}
       </div>
       {ProfileDetails ? (
         <div className="p-5 bg-secondaryGreen mt-10 w-5/6 mx-10 sm:w-96 ml-auto mr-auto flex flex-col justify-center items-center rounded-3xl ">

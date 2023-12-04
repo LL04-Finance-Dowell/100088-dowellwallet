@@ -8,6 +8,7 @@ const TransactionItem = ({ item }) => {
       </td>
       <td className="sm:text-2xl text-sm text-center">{item.transaction_type}</td>
       <td className="sm:text-2xl text-sm text-center">${item.amount}</td>
+      <td className="sm:text-2xl text-sm text-center">{item.status}</td>
     </tr>
   );
 };

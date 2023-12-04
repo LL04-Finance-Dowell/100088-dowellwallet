@@ -60,9 +60,9 @@ const Deposit = () => {
       <header>
         <Link
           to={"/"}
-          className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between"
+          className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between"
         >
-          <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
+          <img src={logo_dowell} className="cursor-pointer w-44 sm:w-80 h-20" alt="" />
         </Link>
       </header>
       <div className="border-black border-2 p-5 sm:p-10 w-4/5 lg:w-2/6 mt-16 ml-auto mr-auto rounded-xl ">

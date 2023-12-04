@@ -31,6 +31,7 @@ const DashBoard = () => {
       })
       .then((data) => {
         if (data.wallet && data.wallet.length > 0) {
+          console.log(data);
           setWalletDetails(data);
         } else {
           console.error("Empty or unexpected wallet data received");
@@ -98,11 +99,11 @@ const DashBoard = () => {
         </div>
       )}
       <header>
-        <div className="bg-primaryGreen h-32 pr-5 sm:pr-20  flex items-center justify-between">
-          <img src={logo_dowell} className="w-52 sm:w-96 h-30" alt="" />
+        <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between">
+          <img src={logo_dowell} className="w-52 sm:w-96 h-20" alt="" />
           <Link
             to={`/profile`}
-            className="sm:w-28 w-24 h-24 sm:h-28  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
+            className="w-20 h-20  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
           >
             Profile
           </Link>
@@ -111,21 +112,19 @@ const DashBoard = () => {
       {/* ============================================================================== */}
       {walletDetails ? (
         <div className="p-10">
-          <section className="bg-white mb-10  p-5 rounded-md">
-            <div className="pb-2">
+          <section className="bg-white mb-10  p-5 rounded-md flex flex-row">
+            <div className="pb-2 flex flex-col mr-5">
               <b className=" text-xl">Wallet Balance</b>
-            </div>
-            <div>
               <b className="text-green-600 pr-5 text-xl">
                 $ {walletDetails.wallet[0].balance}
               </b>
-              <button
-                onClick={handleTopUp}
-                className="bg-blue-800 text-white p-1 px-2 text-lg  rounded-full"
-              >
-                Top Up
-              </button>
             </div>
+            <button
+              onClick={handleTopUp}
+              className="bg-blue-800 text-white p-1 px-2 text-lg  rounded-full"
+            >
+              Top Up
+            </button>
           </section>
           {/* ============================================================================== */}
           <section className="bg-white  p-5 rounded-md ">
@@ -140,7 +139,8 @@ const DashBoard = () => {
                     <th className="sm:text-lg text-sm pr-2 sm:pr-0">
                       Description
                     </th>
-                    <th className="sm:text-lg text-sm">Amount</th>
+                    <th className="sm:text-lg text-sm pr-2 sm:pr-0">Amount</th>
+                    <th className="sm:text-lg text-sm">Status</th>
                   </tr>
                 </thead>
                 <tbody>
