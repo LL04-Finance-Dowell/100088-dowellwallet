@@ -8,6 +8,7 @@ import UpdateProfile from "./Screens/UpdateProfile";
 import AuthorizePayment from "./Screens/AuthorizePayment";
 import Deposit from "./Screens/Deposit";
 import NewUser from "./Screens/NewUser";
+import ChangePassword from "./Screens/ChangePassword";
 const routes = createHashRouter([
   { path: "/login", element: <LogInScreen /> },
   {
@@ -36,6 +37,9 @@ const routes = createHashRouter([
   },{
     path:"/newUser",
     element:<NewUser/>
+  },{
+    path:"/changePassword",
+    element:<ChangePassword/>
   }
 ]);
 function App() {

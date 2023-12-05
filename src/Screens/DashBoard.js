@@ -60,7 +60,7 @@ const DashBoard = () => {
     }
   }, [showPaymentOptions]);
   return (
-    <div className="bg-gray-200 min-h-screen">
+    <div className="bg-gray-200 min-h-screen relative ">
       {showPaymentOptions && (
         <div
           className="bg-secondaryGreen py-5 w-4/6 sm:w-1/4"
@@ -127,7 +127,7 @@ const DashBoard = () => {
             </button>
           </section>
           {/* ============================================================================== */}
-          <section className="bg-white  p-5 rounded-md ">
+          <section className="bg-white  p-5 rounded-md mb-32">
             <div className="pb-2">
               <b className="text-xl">Recent Transactions</b>
             </div>
@@ -150,6 +150,22 @@ const DashBoard = () => {
                 </tbody>
               </table>
             </div>
+          </section>
+          <section className="bg-white h-28 rounded-md border-black border-2 flex flex-row items-center justify-between absolute bottom-4 left-10 right-10">
+            <div>
+              <Link className="text-3xl font-bold text-primaryGreen sm:ml-10 mr-5 sm:mr-10 ">
+                Help
+              </Link>
+              <Link className="text-3xl font-bold text-primaryGreen">
+                Security
+              </Link>
+            </div>
+            <Link
+              to={`/changePassword`}
+              className="w-24 h-24  flex justify-center items-center bg-white rounded-full border-2 border-black text-xl text-primaryGreen mr-5"
+            >
+              settings
+            </Link>
           </section>
         </div>
       ) : (
