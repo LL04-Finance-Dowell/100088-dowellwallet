@@ -30,7 +30,7 @@ const DashBoard = () => {
       .then((response) => {
         if (response.redirected) {
           // If redirected, update the window location
-          // window.location.href = response.url;
+          window.location.href = response.url;
           return; // Stop further processing as the redirection will change the page
         }
 
