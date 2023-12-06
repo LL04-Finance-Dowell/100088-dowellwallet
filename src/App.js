@@ -40,6 +40,9 @@ const routes = createHashRouter([
   },{
     path:"/changePassword",
     element:<ChangePassword/>
+  },{
+    path:"/login",
+    element:<LogInScreen/>
   }
 ]);
 function App() {

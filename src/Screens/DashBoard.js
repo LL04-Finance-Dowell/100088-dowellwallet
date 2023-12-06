@@ -11,16 +11,26 @@ const DashBoard = () => {
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
 
   const getWalletDeatils = () => {
+    const accessToken=localStorage.getItem("accessToken")
+    if(!accessToken){
+      navigate("/login")
+    }
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
     const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail/?session_id=${sessionId}`;
 
-    fetch(apiUrl)
+    fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization":`Bearer ${accessToken}`
+      },
+    })
       .then((response) => {
         if (response.redirected) {
           // If redirected, update the window location
-          window.location.href = response.url;
+          // window.location.href = response.url;
           return; // Stop further processing as the redirection will change the page
         }
 

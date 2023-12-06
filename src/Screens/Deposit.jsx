@@ -20,6 +20,7 @@ const Deposit = () => {
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
+    console.log(sessionId)
     const stripeapiUrl =
       `https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment?session_id=${sessionId}`;
     const paypalapiUrl =
