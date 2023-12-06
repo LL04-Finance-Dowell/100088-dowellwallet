@@ -12,9 +12,6 @@ const DashBoard = () => {
 
   const getWalletDeatils = () => {
     const accessToken=localStorage.getItem("accessToken")
-    if(!accessToken){
-      navigate("/login")
-    }
     const sessionId = new URLSearchParams(window.location.search).get(
       "session_id"
     );
