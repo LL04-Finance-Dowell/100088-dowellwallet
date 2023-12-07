@@ -25,19 +25,14 @@ const DashBoard = () => {
       },
     })
       .then((response) => {
-        if (response.redirected) {
-          // If redirected, update the window location
-          window.location.href = response.url;
-          return; // Stop further processing as the redirection will change the page
-        }
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok.");
-        }
         return response.json();
       })
       .then((data) => {
-        if (data.wallet && data.wallet.length > 0) {
+        console.log(data)
+        if(data.success===false){
+          window.location.href = data.url
+        }
+        else if (data.wallet && data.wallet.length > 0) {
           console.log(data);
           setWalletDetails(data);
         } else {

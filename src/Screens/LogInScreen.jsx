@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import logo_dowell from "../assets/logo_dowell.png";
 
@@ -42,7 +42,35 @@ const LogInScreen = () => {
         setIsLoading(false);
       });
   };
+  const handleForgetPassword = (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    const searchParams = new URLSearchParams(location.search);
+    const sessionId = searchParams.get("session_id");
+    console.log(sessionId);
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/request-reset-password?session_id=${sessionId}`;
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
 
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.message) {
+          navigate(`/changePassword?session_id=${sessionId}`);
+        } else {
+          setError("An error occurred. Please try again.");
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setError("An error occurred. Please try again.");
+        console.error("Error logging in:", error);
+        setIsLoading(false);
+      });
+  };
   return (
     <div className="">
       <div className="mt-5 flex justify-center">
@@ -98,12 +126,15 @@ const LogInScreen = () => {
               "Sign in"
             )}
           </button>
-          {/* <p className="ml-auto mr-auto text-lg sm:text-2xl font-light text-black">
-            Not registered yet?{" "}
-            <Link to="/signup" className="font-medium text-black ">
-              Sign up
-            </Link>
-          </p> */}
+          <p className="ml-auto mr-auto text-lg sm:text-2xl font-light text-black">
+            <p
+              to="/signup"
+              className="font-normal text-black cursor-pointer"
+              onClick={handleForgetPassword}
+            >
+              Forget password
+            </p>
+          </p>
         </form>
       </div>
     </div>

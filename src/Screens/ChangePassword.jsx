@@ -1,18 +1,52 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import logo_dowell from "../assets/logo_dowell.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 const ChangePassword = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [oldPassword, setOldPaasword] = useState();
+  const [OTP, setOTP] = useState();
   const [newPassword, setNewPaasword] = useState();
+  const location = useLocation();
+  const submitHandler = (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    const searchParams = new URLSearchParams(location.search);
+    const sessionId = searchParams.get("session_id");
+    console.log(sessionId);
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/setup-new-pass?session_id=${sessionId}`;
+    const requestBody = {
+      wallet_password: newPassword,
+      otp: parseInt(OTP),
+    };
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.success) {
+          navigate(`/login?session_id=${sessionId}`);
+        }
+        else{
+          setError("An error occurred. Please try again.");
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setError("An error occurred. Please try again.");
+        console.error("Error logging in:", error);
+        setIsLoading(false);
+      });
+  };
   return (
     <div className="bg-gray-200 h-screen">
       <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between">
         <img
-          onClick={() => navigate("/")}
           src={logo_dowell}
           className=" cursor-pointer w-44 sm:w-80 h-20"
           alt=""
@@ -23,19 +57,19 @@ const ChangePassword = () => {
         <p className="text-primaryBlack text-center text-xl sm:text-3xl font-semibold mb-4 sm:mb-8 ">
           Change Password
         </p>
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={submitHandler}>
           {error && <p className="text-red-500 text-base mb-3">{error}</p>}
           <input
             required
             type="text"
             className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack"
-            placeholder="Enter Old Paasword"
-            value={oldPassword}
-            onChange={(e) => setOldPaasword(e.target.value)}
+            placeholder="Enter OTP"
+            value={OTP}
+            onChange={(e) => setOTP(e.target.value)}
           />
           <input
             required
-            type="text"
+            type="password"
             className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack"
             placeholder="Enter New Paasword"
             value={newPassword}
@@ -54,7 +88,7 @@ const ChangePassword = () => {
                 data-testid="loader"
               />
             ) : (
-              "Deposit"
+              "Change"
             )}
           </button>
         </form>
