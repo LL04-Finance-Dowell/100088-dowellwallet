@@ -6,10 +6,12 @@ import { useLocation } from "react-router-dom";
 const Deposit = () => {
   const location = useLocation();
   const [depositmethod, setDepositMethod] = useState("");
+  const [sessionId, setsessionId] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState("");
   const handleConfirmation = (event) => {
+    const accessToken=localStorage.getItem("accessToken")
     event.preventDefault();
     setIsLoading(true);
     if (!depositAmount || isNaN(parseFloat(depositAmount))) {
@@ -17,10 +19,6 @@ const Deposit = () => {
       setIsLoading(false);
       return;
     }
-    const sessionId = new URLSearchParams(window.location.search).get(
-      "session_id"
-    );
-    console.log(sessionId)
     const stripeapiUrl =
       `https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment?session_id=${sessionId}`;
     const paypalapiUrl =
@@ -32,14 +30,18 @@ const Deposit = () => {
        
       headers: {
         'Content-Type': 'application/json',
-        
+        "Authorization":`Bearer ${accessToken}`
       },
       body: JSON.stringify({ amount: parseFloat(depositAmount) }),
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         if (data.success) {
           window.location.href = data.approval_url;
+        }
+        else{
+          window.location.href = data.url;
         }
         setIsLoading(false);
       })
@@ -50,17 +52,21 @@ const Deposit = () => {
   };
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const method = searchParams.get("method"); // Extract method from URL params
+    const method = searchParams.get("method"); 
+    const session = searchParams.get("session_id");
 
     if (method) {
       setDepositMethod(method);
     }
+    if(session){
+      setsessionId(session)
+   }
   }, [location.search]);
   return (
     <div className="bg-gray-200 h-screen">
       <header>
         <Link
-          to={"/"}
+          to={`/?session_id=${sessionId}`}
           className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between"
         >
           <img src={logo_dowell} className="cursor-pointer w-44 sm:w-80 h-20" alt="" />

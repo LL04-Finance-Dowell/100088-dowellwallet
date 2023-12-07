@@ -10,13 +10,14 @@ const DashBoard = () => {
   const [walletDetails, setWalletDetails] = useState(null);
   const location = useLocation();
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [session,setSession]=useState(null)
 
   const getWalletDeatils = () => {
     const accessToken=localStorage.getItem("accessToken")
     const searchParams = new URLSearchParams(location.search);
     const sessionId = searchParams.get("session_id");
     const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail/?session_id=${sessionId}`;
-
+    setSession(sessionId)
     fetch(apiUrl, {
       method: "GET",
       headers: {
@@ -29,7 +30,7 @@ const DashBoard = () => {
       })
       .then((data) => {
         console.log(data)
-        if(data.success===false){
+        if(data.success===false ){
           window.location.href = data.url
         }
         else if (data.wallet && data.wallet.length > 0) {
@@ -48,7 +49,7 @@ const DashBoard = () => {
     setShowPaymentOptions(true);
   };
   const handlePaymentMethod = (method) => {
-    navigate(`/deposit?method=${method}`);
+    navigate(`/deposit?method=${method}&session_id=${session}`);
     setShowPaymentOptions(false);
   };
   useEffect(() => {
@@ -104,7 +105,7 @@ const DashBoard = () => {
         <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between">
           <img src={logo_dowell} className="w-52 sm:w-96 h-20" alt="" />
           <Link
-            to={`/profile`}
+            to={`/profile?session_id=${session}`}
             className="w-20 h-20  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
           >
             Profile
