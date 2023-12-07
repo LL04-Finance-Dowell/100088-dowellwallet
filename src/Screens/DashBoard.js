@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import TransactionItem from "../Components/TransactionItem";
 import { Circles } from "react-loader-spinner";
 import logo_dowell from "../assets/logo_dowell.png";
@@ -8,13 +8,13 @@ import { IoCloseCircle } from "react-icons/io5";
 const DashBoard = () => {
   const navigate = useNavigate();
   const [walletDetails, setWalletDetails] = useState(null);
+  const location = useLocation();
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
 
   const getWalletDeatils = () => {
     const accessToken=localStorage.getItem("accessToken")
-    const sessionId = new URLSearchParams(window.location.search).get(
-      "session_id"
-    );
+    const searchParams = new URLSearchParams(location.search);
+    const sessionId = searchParams.get("session_id");
     const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail/?session_id=${sessionId}`;
 
     fetch(apiUrl, {

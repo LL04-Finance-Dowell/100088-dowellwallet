@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import logo_dowell from "../assets/logo_dowell.png";
+
 const LogInScreen = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const submitHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    const sessionId = new URLSearchParams(window.location.search).get(
-      "session_id"
-    );
+    const searchParams = new URLSearchParams(location.search);
+    const sessionId = searchParams.get("session_id");
     console.log(sessionId);
     const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-login?session_id=${sessionId}`;
     const requestBody = {
@@ -29,7 +30,7 @@ const LogInScreen = () => {
       .then((data) => {
         if (data.access_token) {
           localStorage.setItem("accessToken", data.access_token);
-          navigate(`/`);
+          navigate(`/?session_id=${sessionId}`);
         } else {
           setError(data.error);
         }
