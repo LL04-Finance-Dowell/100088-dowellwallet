@@ -117,7 +117,7 @@ const DashBoard = () => {
         <div className="p-10">
           <section className="bg-white mb-10  p-5 rounded-md flex flex-row">
             <div className="pb-2 flex flex-col mr-5">
-              <b className=" text-xl">Wallet Balance</b>
+              <b className="text-lg sm:text-xl">Wallet Balance</b>
               <b className="text-green-600 pr-5 text-xl">
                 $ {walletDetails.wallet[0].balance}
               </b>
@@ -156,10 +156,10 @@ const DashBoard = () => {
           </section>
           <section className="bg-white h-28 rounded-md border-black border-2 flex flex-row items-center justify-between absolute bottom-4 left-10 right-10">
             <div>
-              <Link className="text-3xl font-bold text-primaryGreen sm:ml-10 mr-5 sm:mr-10 ">
+              <Link className="text-lg sm:text-3xl font-bold text-primaryGreen ml-2 sm:ml-10 mr-5 sm:mr-10 ">
                 Help
               </Link>
-              <Link className="text-3xl font-bold text-primaryGreen">
+              <Link className="text-lg sm:text-3xl  font-bold text-primaryGreen">
                 Security
               </Link>
             </div>

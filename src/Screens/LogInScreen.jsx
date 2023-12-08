@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation, } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation, Link, } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import logo_dowell from "../assets/logo_dowell.png";
 
@@ -9,13 +9,11 @@ const LogInScreen = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [session_id, setsession_id] = useState(null);
   const submitHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    const searchParams = new URLSearchParams(location.search);
-    const sessionId = searchParams.get("session_id");
-    console.log(sessionId);
-    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-login?session_id=${sessionId}`;
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet-login?session_id=${session_id}`;
     const requestBody = {
       wallet_password: password,
     };
@@ -30,7 +28,7 @@ const LogInScreen = () => {
       .then((data) => {
         if (data.access_token) {
           localStorage.setItem("accessToken", data.access_token);
-          navigate(`/?session_id=${sessionId}`);
+          navigate(`/?session_id=${session_id}`);
         } else {
           setError(data.error);
         }
@@ -42,35 +40,12 @@ const LogInScreen = () => {
         setIsLoading(false);
       });
   };
-  const handleForgetPassword = (e) => {
-    setIsLoading(true);
-    e.preventDefault();
+
+  useEffect(()=>{
     const searchParams = new URLSearchParams(location.search);
     const sessionId = searchParams.get("session_id");
-    console.log(sessionId);
-    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/request-reset-password?session_id=${sessionId}`;
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data?.message) {
-          navigate(`/changePassword?session_id=${sessionId}`);
-        } else {
-          setError("An error occurred. Please try again.");
-        }
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError("An error occurred. Please try again.");
-        console.error("Error logging in:", error);
-        setIsLoading(false);
-      });
-  };
+    setsession_id(sessionId)
+  },[location.search])
   return (
     <div className="">
       <div className="mt-5 flex justify-center">
@@ -127,13 +102,13 @@ const LogInScreen = () => {
             )}
           </button>
           <p className="ml-auto mr-auto text-lg sm:text-2xl font-light text-black">
-            <p
-              to="/signup"
+            <Link
+              to={`/changePassword?session_id=${session_id}`}
               className="font-normal text-black cursor-pointer"
-              onClick={handleForgetPassword}
+              // onClick={handleForgetPassword}
             >
               Forget password
-            </p>
+            </Link>
           </p>
         </form>
       </div>
