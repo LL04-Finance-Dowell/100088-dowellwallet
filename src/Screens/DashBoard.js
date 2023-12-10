@@ -1,39 +1,43 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import TransactionItem from "../Components/TransactionItem";
 import { Circles } from "react-loader-spinner";
 import logo_dowell from "../assets/logo_dowell.png";
 import { IoCloseCircle } from "react-icons/io5";
 const DashBoard = () => {
   const navigate = useNavigate();
+  const itemsPerPage = 10;
+  console.log(Math.ceil(13 / 10));
+  const [currentPage, setCurrentPage] = useState(1);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   const [walletDetails, setWalletDetails] = useState(null);
   const location = useLocation();
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
-  const [session,setSession]=useState(null)
+  const [session, setSession] = useState(null);
 
   const getWalletDeatils = () => {
-    const accessToken=localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem("accessToken");
     const searchParams = new URLSearchParams(location.search);
     const sessionId = searchParams.get("session_id");
     const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail/?session_id=${sessionId}`;
-    setSession(sessionId)
+    setSession(sessionId);
     fetch(apiUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization":`Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
       },
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data)
-        if(data.success===false ){
-          window.location.href = data.url
-        }
-        else if (data.wallet && data.wallet.length > 0) {
+        console.log(data);
+        if (data.success === false) {
+          window.location.href = data.url;
+        } else if (data.wallet && data.wallet.length > 0) {
           console.log(data);
           setWalletDetails(data);
         } else {
@@ -51,6 +55,19 @@ const DashBoard = () => {
   const handlePaymentMethod = (method) => {
     navigate(`/deposit?method=${method}&session_id=${session}`);
     setShowPaymentOptions(false);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) =>
+      Math.min(
+        prevPage + 1,
+        Math.ceil(walletDetails.transactions.length / itemsPerPage)
+      )
+    );
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
   useEffect(() => {
     getWalletDeatils();
@@ -147,14 +164,30 @@ const DashBoard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {walletDetails.transactions.map((item, index) => {
-                    return <TransactionItem item={item} key={index} />;
-                  })}
+                  {walletDetails.transactions
+                    .slice(startIndex, endIndex)
+                    .map((item, index) => {
+                      return <TransactionItem item={item} key={index} />;
+                    })}
                 </tbody>
               </table>
             </div>
+            <div className="flex flex-row">
+              <button
+                className="mr-4 bg-secondaryGreen p-4 rounded-lg"
+                onClick={handlePrevPage}
+              >
+                Previous
+              </button>
+              <button
+                className="bg-secondaryGreen p-4 rounded-lg"
+                onClick={handleNextPage}
+              >
+                Next
+              </button>
+            </div>
           </section>
-          <section className="bg-white h-28 rounded-md border-black border-2 flex flex-row items-center justify-between absolute bottom-4 left-10 right-10">
+          <section className="bg-white h-28 rounded-md border-black border-2 flex flex-row items-center justify-between fixed bottom-1 left-10 right-10">
             <div>
               <Link className="text-lg sm:text-3xl font-bold text-primaryGreen ml-2 sm:ml-10 mr-5 sm:mr-10 ">
                 Help
