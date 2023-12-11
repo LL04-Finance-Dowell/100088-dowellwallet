@@ -8,7 +8,6 @@ import { IoCloseCircle } from "react-icons/io5";
 const DashBoard = () => {
   const navigate = useNavigate();
   const itemsPerPage = 10;
-  console.log(Math.ceil(13 / 10));
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -118,8 +117,8 @@ const DashBoard = () => {
           </button>
         </div>
       )}
-      <header>
-        <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0">
+        <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between sticky top-0">
           <img src={logo_dowell} className="w-52 sm:w-96 h-20" alt="" />
           <Link
             to={`/profile?session_id=${session}`}
@@ -132,7 +131,7 @@ const DashBoard = () => {
       {/* ============================================================================== */}
       {walletDetails ? (
         <div className="p-10">
-          <section className="bg-white mb-10  p-5 rounded-md flex flex-row">
+          <section className="bg-white  p-5 rounded-md flex flex-row fixed top-28 left-10 right-10 ">
             <div className="pb-2 flex flex-col mr-5">
               <b className="text-lg sm:text-xl">Wallet Balance</b>
               <b className="text-green-600 pr-5 text-xl">
@@ -147,7 +146,7 @@ const DashBoard = () => {
             </button>
           </section>
           {/* ============================================================================== */}
-          <section className="bg-white  p-5 rounded-md mb-32">
+          <section className="bg-white  p-5 rounded-md mb-32 mt-52">
             <div className="pb-2">
               <b className="text-xl">Recent Transactions</b>
             </div>
@@ -173,39 +172,44 @@ const DashBoard = () => {
               </table>
             </div>
             <div className="flex flex-row">
-              <button
-                className="mr-4 bg-secondaryGreen p-4 rounded-lg"
-                onClick={handlePrevPage}
-              >
-                Previous
-              </button>
-              <button
-                className="bg-secondaryGreen p-4 rounded-lg"
-                onClick={handleNextPage}
-              >
-                Next
-              </button>
+              {currentPage !== 1 && (
+                <button
+                  className="mr-4 bg-secondaryGreen p-4 rounded-lg"
+                  onClick={handlePrevPage}
+                >
+                  Previous
+                </button>
+              )}
+              {currentPage !==
+                Math.ceil(walletDetails.transactions.length / itemsPerPage) && (
+                <button
+                  className="bg-secondaryGreen p-4 rounded-lg"
+                  onClick={handleNextPage}
+                >
+                  Next
+                </button>
+              )}
             </div>
           </section>
-          <section className="bg-white h-28 rounded-md border-black border-2 flex flex-row items-center justify-between fixed bottom-1 left-10 right-10">
+          <section className="bg-white h-16 rounded-md border-black border-2 flex flex-row items-center justify-between fixed bottom-1 left-10 right-10">
             <div>
-              <Link className="text-lg sm:text-3xl font-bold text-primaryGreen ml-2 sm:ml-10 mr-5 sm:mr-10 ">
+              <Link className="text-lg sm:text-xl font-bold text-primaryGreen ml-2 sm:ml-10 mr-5 sm:mr-10 ">
                 Help
               </Link>
-              <Link className="text-lg sm:text-3xl  font-bold text-primaryGreen">
+              <Link className="text-lg sm:text-xl  font-bold text-primaryGreen">
                 Security
               </Link>
             </div>
             <Link
               to={`/changePassword`}
-              className="w-24 h-24  flex justify-center items-center bg-white rounded-full border-2 border-black text-xl text-primaryGreen mr-5"
+              className="w-24 h-12  flex justify-center items-center bg-white rounded-full border-2 border-black text-xl text-primaryGreen mr-5"
             >
               settings
             </Link>
           </section>
         </div>
       ) : (
-        <div className="w-full flex flex-row justify-center mt-5">
+        <div className="w-full flex flex-row justify-center mt-24">
           <Circles
             height="80"
             width="80"
