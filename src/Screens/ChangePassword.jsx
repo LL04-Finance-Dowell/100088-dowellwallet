@@ -92,7 +92,7 @@ const ChangePassword = () => {
     const last = email.slice(-4);
     console.log(first);
     console.log(last);
-    return `${first} ${"*".repeat(email.length-8)} ${last}`
+    return `${first} ${"*".repeat(email.length - 8)} ${last}`;
   };
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -117,25 +117,24 @@ const ChangePassword = () => {
         <p className="text-primaryBlack text-center text-xl sm:text-3xl font-semibold mb-4 sm:mb-8 ">
           Change Password
         </p>
-        <p className=" mb-2 sm:mb-4 text-base sm:text-2xl font-semibold">
+        <p className=" mb-2 text-base sm:text-lg font-semibold inline">
           <span
-            className="text-primaryGreen cursor-pointer text-lg sm:text-3xl"
+            className="text-primaryGreen cursor-pointer text-xl"
             onClick={handleForgetPassword}
           >
             send
           </span>
           {` otp to this email : `}
         </p>
-        <p className=" mb-3 sm:mb-6 text-base sm:text-xl font-medium">
-
-          {`${email?printEmail():""} `}
+        <p className=" mb-3 text-base sm:text-lg font-medium sm:inline">
+          {`${email ? printEmail() : ""} `}
         </p>
         <form className="flex flex-col" onSubmit={submitHandler}>
           {error && <p className="text-red-500 text-base mb-3">{error}</p>}
           <input
             required
             type="text"
-            className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack"
+            className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack sm:mt-6"
             placeholder="Enter OTP"
             value={OTP}
             onChange={(e) => setOTP(e.target.value)}

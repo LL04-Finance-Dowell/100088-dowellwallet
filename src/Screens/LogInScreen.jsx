@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation, Link, } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import logo_dowell from "../assets/logo_dowell.png";
+import { BiShow, BiHide } from "react-icons/bi";
 
 const LogInScreen = () => {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ const LogInScreen = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [session_id, setsession_id] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
   const submitHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
@@ -41,11 +46,15 @@ const LogInScreen = () => {
       });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const sessionId = searchParams.get("session_id");
-    setsession_id(sessionId)
-  },[location.search])
+    if (!sessionId) {
+      window.location.href =
+        "https://100014.pythonanywhere.com/?redirect_url=https://ll04-finance-dowell.github.io/100088-dowellwallet/#/login";
+    }
+    setsession_id(sessionId);
+  }, [location.search]);
   return (
     <div className="">
       <div className="mt-5 flex justify-center">
@@ -77,14 +86,29 @@ const LogInScreen = () => {
           {/* <label className="text-primaryBlack text-base sm:text-xl font-medium mb-2">
             Password
           </label> */}
-          <input
-            required
-            className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack"
-            placeholder="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div style={{ position: "relative", width: "100%" }}>
+            <input
+              required
+              className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack w-full"
+              placeholder="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {showPassword ? (
+              <BiShow
+                onClick={handleTogglePassword}
+                className="absolute top-1/4 right-7 cursor-pointer"
+                size={23}
+              />
+            ) : (
+              <BiHide
+                onClick={handleTogglePassword}
+                className="absolute top-1/4 right-7 cursor-pointer"
+                size={23}
+              />
+            )}
+          </div>
           <button
             disabled={isLoading}
             type="submit"

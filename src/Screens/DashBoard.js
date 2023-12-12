@@ -5,6 +5,7 @@ import TransactionItem from "../Components/TransactionItem";
 import { Circles } from "react-loader-spinner";
 import logo_dowell from "../assets/logo_dowell.png";
 import { IoCloseCircle } from "react-icons/io5";
+import { IoSettings } from "react-icons/io5";
 const DashBoard = () => {
   const navigate = useNavigate();
   const itemsPerPage = 10;
@@ -191,7 +192,7 @@ const DashBoard = () => {
               )}
             </div>
           </section>
-          <section className="bg-white h-16 rounded-md border-black border-2 flex flex-row items-center justify-between fixed bottom-1 left-10 right-10">
+          <section className="bg-white h-16 rounded-md flex flex-row items-center justify-between fixed bottom-1 left-10 right-10">
             <div>
               <Link className="text-lg sm:text-xl font-bold text-primaryGreen ml-2 sm:ml-10 mr-5 sm:mr-10 ">
                 Help
@@ -200,11 +201,8 @@ const DashBoard = () => {
                 Security
               </Link>
             </div>
-            <Link
-              to={`/changePassword`}
-              className="w-24 h-12  flex justify-center items-center bg-white rounded-full border-2 border-black text-xl text-primaryGreen mr-5"
-            >
-              settings
+            <Link to={`/changePassword`} className="mr-5">
+              <IoSettings size={35} />
             </Link>
           </section>
         </div>
