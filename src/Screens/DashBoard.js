@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TransactionItem from "../Components/TransactionItem";
 import { Circles } from "react-loader-spinner";
 import logo_dowell from "../assets/logo_dowell.png";
@@ -13,16 +13,13 @@ const DashBoard = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const [walletDetails, setWalletDetails] = useState(null);
-  const location = useLocation();
-  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
-  const [session, setSession] = useState(null);
 
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(false);
   const getWalletDeatils = () => {
     const accessToken = localStorage.getItem("accessToken");
-    const searchParams = new URLSearchParams(location.search);
-    const sessionId = searchParams.get("session_id");
+    const sessionId = localStorage.getItem("sessionId");
     const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/wallet_detail/?session_id=${sessionId}`;
-    setSession(sessionId);
     fetch(apiUrl, {
       method: "GET",
       headers: {
@@ -34,11 +31,9 @@ const DashBoard = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.success === false) {
           window.location.href = data.url;
         } else if (data.wallet && data.wallet.length > 0) {
-          console.log(data);
           setWalletDetails(data);
         } else {
           console.error("Empty or unexpected wallet data received");
@@ -49,11 +44,26 @@ const DashBoard = () => {
         console.error("Error fetching data:", error);
       });
   };
+  const getProfilePicture = () => {
+    const sessionId = localStorage.getItem("sessionId");
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/get-user?session_id=${sessionId}`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.success) {
+          setProfilePicture(data.profile_picture);
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging in:", error);
+      });
+  };
   const handleTopUp = () => {
     setShowPaymentOptions(true);
   };
   const handlePaymentMethod = (method) => {
-    navigate(`/deposit?method=${method}&session_id=${session}`);
+    navigate(`/deposit?method=${method}`);
     setShowPaymentOptions(false);
   };
 
@@ -70,6 +80,7 @@ const DashBoard = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
   useEffect(() => {
+    getProfilePicture();
     getWalletDeatils();
   }, []);
   useEffect(() => {
@@ -121,12 +132,12 @@ const DashBoard = () => {
       <header className="fixed top-0 left-0 right-0">
         <div className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between sticky top-0">
           <img src={logo_dowell} className="w-52 sm:w-96 h-20" alt="" />
-          <Link
-            to={`/profile?session_id=${session}`}
+          <img
+            onClick={() => navigate("/profile")}
+            alt=""
+            src={profilePicture}
             className="w-20 h-20  flex justify-center items-center bg-white rounded-full text-xl text-primaryGreen"
-          >
-            Profile
-          </Link>
+          />
         </div>
       </header>
       {/* ============================================================================== */}

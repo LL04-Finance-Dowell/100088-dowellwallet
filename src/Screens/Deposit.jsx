@@ -11,7 +11,7 @@ const Deposit = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState("");
   const handleConfirmation = (event) => {
-    const accessToken=localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem("accessToken");
     event.preventDefault();
     setIsLoading(true);
     if (!depositAmount || isNaN(parseFloat(depositAmount))) {
@@ -19,57 +19,58 @@ const Deposit = () => {
       setIsLoading(false);
       return;
     }
-    const stripeapiUrl =
-      `https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment?session_id=${sessionId}`;
-    const paypalapiUrl =
-      `https://100088.pythonanywhere.com/api/wallet/v1/paypal-payment?session_id=${sessionId}`; // Replace with your PayPal API URL
+    const stripeapiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/stripe-payment?session_id=${sessionId}`;
+    const paypalapiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/paypal-payment?session_id=${sessionId}`; // Replace with your PayPal API URL
 
     const apiUrl = depositmethod === "paypal" ? paypalapiUrl : stripeapiUrl;
     fetch(apiUrl, {
-      method: 'POST',
-       
+      method: "POST",
+
       headers: {
-        'Content-Type': 'application/json',
-        "Authorization":`Bearer ${accessToken}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ amount: parseFloat(depositAmount) }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.success) {
           window.location.href = data.approval_url;
-        }
-        else{
+        } else {
           window.location.href = data.url;
         }
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Error making a deposit:', error);
+        console.error("Error making a deposit:", error);
         setIsLoading(false);
       });
   };
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const method = searchParams.get("method"); 
-    const session = searchParams.get("session_id");
+    const method = searchParams.get("method");
+    const session = localStorage.getItem("sessionId");
 
     if (method) {
       setDepositMethod(method);
     }
-    if(session){
-      setsessionId(session)
-   }
+    if (session) {
+      setsessionId(session);
+    }
   }, [location.search]);
   return (
     <div className="bg-gray-200 h-screen">
       <header>
         <Link
-          to={`/?session_id=${sessionId}`}
+          to={`/`}
           className="bg-primaryGreen h-24 pr-5 sm:pr-20  flex items-center justify-between"
         >
-          <img src={logo_dowell} className="cursor-pointer w-44 sm:w-80 h-20" alt="" />
+          <img
+            src={logo_dowell}
+            className="cursor-pointer w-44 sm:w-80 h-20"
+            alt=""
+          />
         </Link>
       </header>
       <div className="border-black border-2 p-5 sm:p-10 w-4/5 lg:w-2/6 mt-16 ml-auto mr-auto rounded-xl ">

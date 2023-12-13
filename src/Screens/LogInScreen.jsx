@@ -33,7 +33,7 @@ const LogInScreen = () => {
       .then((data) => {
         if (data.access_token) {
           localStorage.setItem("accessToken", data.access_token);
-          navigate(`/?session_id=${session_id}`);
+          navigate(`/`);
         } else {
           setError(data.error);
         }
@@ -54,6 +54,7 @@ const LogInScreen = () => {
         "https://100014.pythonanywhere.com/?redirect_url=https://ll04-finance-dowell.github.io/100088-dowellwallet/#/login";
     }
     setsession_id(sessionId);
+    localStorage.setItem("sessionId", sessionId);
   }, [location.search]);
   return (
     <div className="">
@@ -67,8 +68,14 @@ const LogInScreen = () => {
         />
       </div>
       <div className="border-black border-2 p-5 sm:p-10 w-full lg:w-2/6 mt-16 ml-auto mr-auto rounded-xl ">
-        <p className="text-primaryBlack text-center text-xl sm:text-3xl font-semibold mb-4 sm:mb-8 ">
+        <p className="text-primaryBlack text-center text-xl sm:text-3xl font-semibold mb-4  ">
           Log in to Dowell Wallet
+        </p>
+        <p className="ml-auto mr-auto text-lg sm:text-2xl font-light text-secondaryBlack text-center mb-4">
+          New user?{" "}
+          <Link to={`/changePassword`} className="font-medium ">
+            Set Up Password
+          </Link>
         </p>
         <form className="flex flex-col" onSubmit={submitHandler}>
           {error && <p className="text-red-500 text-base mb-3">{error}</p>}
@@ -127,7 +134,7 @@ const LogInScreen = () => {
           </button>
           <p className="ml-auto mr-auto text-lg sm:text-2xl font-light text-black">
             <Link
-              to={`/changePassword?session_id=${session_id}`}
+              to={`/changePassword`}
               className="font-normal text-black cursor-pointer"
               // onClick={handleForgetPassword}
             >

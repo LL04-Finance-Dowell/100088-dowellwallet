@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import logo_dowell from "../assets/logo_dowell.png";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 const ChangePassword = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +53,7 @@ const ChangePassword = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data?.message) {
-          navigate(`/changePassword?session_id=${session_id}`);
+          // navigate(`/changePassword?session_id=${session_id}`);
         } else {
           setError("An error occurred. Please try again.");
         }
@@ -95,10 +94,8 @@ const ChangePassword = () => {
     return `${first} ${"*".repeat(email.length - 8)} ${last}`;
   };
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const sessionId = searchParams.get("session_id");
-    setsession_id(sessionId);
-  }, [location.search]);
+    setsession_id(localStorage.getItem("sessionId"));
+  }, []);
 
   useEffect(() => {
     if (session_id) getEmail();
