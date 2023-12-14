@@ -74,8 +74,7 @@ const ChangePassword = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data?.success) {
-          console.log(data.user_info.email);
-          setEmail(data.user_info.email);
+          setEmail(data.email);
         } else {
           setError("An error occurred. Please try again.");
         }
