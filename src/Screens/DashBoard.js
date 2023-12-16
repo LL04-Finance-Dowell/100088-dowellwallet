@@ -13,7 +13,7 @@ const DashBoard = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const [walletDetails, setWalletDetails] = useState(null);
-
+  const [noOfPages, setNoOfPages] = useState();
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [profilePicture, setProfilePicture] = useState(false);
   const getWalletDeatils = () => {
@@ -35,6 +35,11 @@ const DashBoard = () => {
           window.location.href = data.url;
         } else if (data.wallet && data.wallet.length > 0) {
           setWalletDetails(data);
+          if (data.transactions.length === 0) {
+            setNoOfPages(1);
+          } else {
+            setNoOfPages(Math.ceil(data.transactions.length / itemsPerPage));
+          }
         } else {
           console.error("Empty or unexpected wallet data received");
         }
@@ -68,12 +73,7 @@ const DashBoard = () => {
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) =>
-      Math.min(
-        prevPage + 1,
-        Math.ceil(walletDetails.transactions.length / itemsPerPage)
-      )
-    );
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, noOfPages));
   };
 
   const handlePrevPage = () => {
@@ -192,8 +192,7 @@ const DashBoard = () => {
                   Previous
                 </button>
               )}
-              {currentPage !==
-                Math.ceil(walletDetails.transactions.length / itemsPerPage) && (
+              {currentPage !== noOfPages && (
                 <button
                   className="bg-secondaryGreen p-4 rounded-lg"
                   onClick={handleNextPage}

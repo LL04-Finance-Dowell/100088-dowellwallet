@@ -3,7 +3,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import logo_dowell from "../assets/logo_dowell.png";
 import { useLocation } from "react-router-dom";
 const AuthorizePayment = () => {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -12,11 +12,11 @@ const AuthorizePayment = () => {
   const location = useLocation();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const handleFormSubmit = async (event) => {
-    setShowConfirmation(false)
+    setShowConfirmation(false);
     setIsLoading(true);
     event.preventDefault();
     console.log({
-      email,
+      // email,
       password,
       initialization_id: initializationId,
     });
@@ -29,7 +29,7 @@ const AuthorizePayment = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email,
+            // email,
             password,
             initialization_id: initializationId,
           }),
@@ -58,15 +58,15 @@ const AuthorizePayment = () => {
     }
     setIsLoading(false);
   };
-  const handleConfirmation=(event)=>{
+  const handleConfirmation = (event) => {
     event.preventDefault();
-    setShowConfirmation(true); 
-  }
+    setShowConfirmation(true);
+  };
   useEffect(() => {
     // Extract initiation_id from URL params
     const searchParams = new URLSearchParams(location.search);
     const initializationIdFromParams = searchParams.get("initialization_id");
-    const priceFromParams = searchParams.get('price');
+    const priceFromParams = searchParams.get("price");
     console.log("initialization ID from URL:", initializationIdFromParams);
     console.log("priceFromParams:", priceFromParams);
     if (initializationIdFromParams) {
@@ -93,14 +93,14 @@ const AuthorizePayment = () => {
         </p>
         <form className="flex flex-col" onSubmit={handleConfirmation}>
           {error && <p className="text-red-500 text-base mb-3">{error}</p>}
-          <input
+          {/* <input
             required
             type="text"
             className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack"
             placeholder="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
+          /> */}
           <input
             required
             className="rounded-xl h-14 px-6 py-4 mb-3 sm:mb-6 bg-secondaryGreen text-thirdBlack"
@@ -126,26 +126,26 @@ const AuthorizePayment = () => {
             )}
           </button>
           {showConfirmation && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <p className="text-lg mb-4">Confirm payment of ${price}?</p>
-            <div className="flex justify-end">
-              <button
-                onClick={handleFormSubmit}
-                className="px-4 py-2 bg-blue-500 text-white rounded mr-2 hover:bg-blue-600 focus:outline-none"
-              >
-                Confirm
-              </button>
-              <button
-                onClick={() => setShowConfirmation(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none"
-              >
-                Cancel
-              </button>
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="bg-white p-6 rounded shadow-lg">
+                <p className="text-lg mb-4">Confirm payment of ${price}?</p>
+                <div className="flex justify-end">
+                  <button
+                    onClick={handleFormSubmit}
+                    className="px-4 py-2 bg-blue-500 text-white rounded mr-2 hover:bg-blue-600 focus:outline-none"
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={() => setShowConfirmation(false)}
+                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
         </form>
       </div>
     </div>

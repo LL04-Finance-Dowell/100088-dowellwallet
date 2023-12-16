@@ -31,11 +31,14 @@ const LogInScreen = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.access_token) {
           localStorage.setItem("accessToken", data.access_token);
           navigate(`/`);
-        } else {
+        } else if (data.error) {
           setError(data.error);
+        } else {
+          setError("An error occurred. Please try again.");
         }
         setIsLoading(false);
       })
@@ -73,7 +76,10 @@ const LogInScreen = () => {
         </p>
         <p className="ml-auto mr-auto text-lg sm:text-2xl font-light text-secondaryBlack text-center mb-4">
           New user?{" "}
-          <Link to={`/changePassword`} className="font-medium ">
+          <Link
+            to={`/changePassword`}
+            className="font-medium text-primaryGreen "
+          >
             Set Up Password
           </Link>
         </p>
