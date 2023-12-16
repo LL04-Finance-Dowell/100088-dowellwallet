@@ -93,7 +93,7 @@ const ChangePassword = () => {
   const getTransactionHistory = () => {
     setIsLoading(true);
     const accessToken = localStorage.getItem("accessToken");
-    const apiUrl = `http://100088.pythonanywhere.com/api/wallet/v1/transactions-history/?session_id=${session_id}`;
+    const apiUrl = `https://100088.pythonanywhere.com/api/wallet/v1/transactions-history/?session_id=${session_id}`;
     fetch(apiUrl, {
       method: "GET",
       headers: {
