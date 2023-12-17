@@ -211,7 +211,7 @@ const DashBoard = () => {
                 Security
               </Link>
             </div>
-            <Link to={`/changePassword`} className="mr-5">
+            <Link to={`/settings`} className="mr-5">
               <IoSettings size={35} />
             </Link>
           </section>

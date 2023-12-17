@@ -9,6 +9,7 @@ import AuthorizePayment from "./Screens/AuthorizePayment";
 import Deposit from "./Screens/Deposit";
 import NewUser from "./Screens/NewUser";
 import ChangePassword from "./Screens/ChangePassword";
+import Settings from "./Screens/settingsPage";
 const routes = createHashRouter([
   { path: "/login", element: <LogInScreen /> },
   {
@@ -34,16 +35,20 @@ const routes = createHashRouter([
   {
     path: "/deposit",
     element: <Deposit />,
-  },{
-    path:"/newUser",
-    element:<NewUser/>
-  },{
-    path:"/changePassword",
-    element:<ChangePassword/>
-  },{
-    path:"/login",
-    element:<LogInScreen/>
-  }
+  },
+  {
+    path: "/newUser",
+    element: <NewUser />,
+  },
+  {
+    path: "/changePassword",
+    element: <ChangePassword />,
+  },
+  {
+    path: "/login",
+    element: <LogInScreen />,
+  },
+  { path: "/settings", element: <Settings /> },
 ]);
 function App() {
   return <RouterProvider router={routes} />;
