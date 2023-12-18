@@ -22,7 +22,7 @@ const AuthorizePayment = () => {
     });
     try {
       const response = await fetch(
-        "https://100088.pythonanywhere.com/api/wallet/v1/verify-payment",
+        "https://100088.pythonanywhere.com/api/wallet/v1/authorize-payment",
         {
           method: "POST",
           headers: {
@@ -30,7 +30,7 @@ const AuthorizePayment = () => {
           },
           body: JSON.stringify({
             // email,
-            password,
+            wallet_password: password,
             initialization_id: initializationId,
           }),
         }
